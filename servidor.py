@@ -9,8 +9,8 @@ app = Flask(__name__)
 CORS(app, supports_credentials=True)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'clave_segura')
 
-# Configuración de la base de datos PostgreSQL en Neon
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://usuariosdb_owner:npg_2DM9LonayBtN@ep-yellow-wave-a4khkw3p-pooler.us-east-1.aws.neon.tech/usuariosdb?sslmode=require'
+# Configuración de la base de datos PostgreSQL desde variable de entorno
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 app.config['SESSION_COOKIE_SECURE'] = True
@@ -172,6 +172,8 @@ def kick_user(user_id):
     db.session.commit()
     return jsonify({'message': f'Usuario {user.username} desconectado'}), 200
 
+# Servidor para Render/Producción
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    from waitress import serve
+    port = int(os.environ.get('PORT', 10000))
+    serve(app, host='0.0.0.0', port=port)
