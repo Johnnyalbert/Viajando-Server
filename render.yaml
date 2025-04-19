@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: viajando-backend
+    env: python
+    buildCommand: ""
+    startCommand: gunicorn server:app
+    envVars:
+      - key: FLASK_SECRET_KEY
+        value: una_clave_secreta
+      - key: DATABASE_URL
+        value: postgresql://viajandocuba_owner:npg_ZLo7F6vdmVkI@ep-long-sun-a4dd9n4f-pooler.us-east-1.aws.neon.tech/viajandocuba?sslmode=require
