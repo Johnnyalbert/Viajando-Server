@@ -3,7 +3,7 @@ services:
     name: viajando-backend
     env: python
     buildCommand: ""
-    startCommand: gunicorn server:app
+    startCommand: python servidor.py
     envVars:
       - key: FLASK_SECRET_KEY
         value: una_clave_secreta
